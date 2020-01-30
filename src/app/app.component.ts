@@ -67,5 +67,6 @@ export class AppComponent implements OnInit, OnDestroy {
     this.observable$.unsubscribe();
     this.subject$.unsubscribe();
     this.behaviorSubject$.unsubscribe();
+    this.replaySubject$.unsubscribe();
   }
 }
