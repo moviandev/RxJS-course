@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Observable, Subject, BehaviorSubject } from 'rxjs';
+import { Observable, Subject, BehaviorSubject, ReplaySubject } from 'rxjs';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -10,6 +10,7 @@ export class AppComponent implements OnInit, OnDestroy {
   observable$;
   subject$: Subject<number>;
   behaviorSubject$: BehaviorSubject<number>;
+  replaySubject$: ReplaySubject<number>;
 
   ngOnInit() {
     this.observable$ = new Observable<any>(observer => {
@@ -47,10 +48,24 @@ export class AppComponent implements OnInit, OnDestroy {
       console.log('second subscribe ==> Behavior ', v),
     );
     this.behaviorSubject$.next(3);
+
+    this.replaySubject$ = new ReplaySubject<number>();
+    this.replaySubject$.subscribe(x =>
+      console.log('First subscribe  ==> Replay ', x),
+    );
+    this.replaySubject$.next(1);
+    this.replaySubject$.next(2);
+    this.replaySubject$.next(3);
+
+    this.replaySubject$.subscribe(v =>
+      console.log('second subscribe ==> Replay ', v),
+    );
+    this.replaySubject$.next(3);
   }
 
   ngOnDestroy() {
     this.observable$.unsubscribe();
     this.subject$.unsubscribe();
+    this.behaviorSubject$.unsubscribe();
   }
 }
