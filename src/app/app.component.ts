@@ -1,16 +1,16 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Observable } from 'rxjs';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, OnDestroy {
   title = 'rxjs-course';
-  observable$: Observable<any>;
+  observable$;
 
   ngOnInit() {
-    this.observable$ = new Observable(observer => {
+    this.observable$ = new Observable<any>(observer => {
       observer.next(1);
       observer.next(2);
       observer.next(3);
@@ -23,5 +23,9 @@ export class AppComponent implements OnInit {
       err => console.log(err),
       () => console.log('this is the end'),
     );
+  }
+
+  ngOnDestroy() {
+    this.observable$.unsubscribe();
   }
 }
