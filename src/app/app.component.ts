@@ -58,7 +58,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.replaySubject$.next(3);
 
     this.replaySubject$.subscribe(v =>
-      console.log('second subscribe ==> Replay ', v),
+      console.log('second subscribe ==> ReplaySub ', v),
     );
     this.replaySubject$.next(3);
   }
