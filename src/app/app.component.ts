@@ -1,5 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Observable, Subject, BehaviorSubject, ReplaySubject } from 'rxjs';
+import { interval } from 'rxjs';
+import { take, map, filter } from 'rxjs/operators';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -22,7 +24,7 @@ export class AppComponent implements OnInit, OnDestroy {
     });
 
     this.observable$.subscribe(
-      v => console.log(v),
+      v => console.log('Observable ==> ', v),
       err => console.log(err),
       () => console.log('this is the end'),
     );
@@ -61,6 +63,10 @@ export class AppComponent implements OnInit, OnDestroy {
       console.log('second subscribe ==> ReplaySub ', v),
     );
     this.replaySubject$.next(3);
+
+    const numbers$ = interval(10).pipe(take(5));
+
+    numbers$.subscribe(v => console.log('Numbers$ ==> ', v));
   }
 
   ngOnDestroy() {
