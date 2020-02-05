@@ -70,6 +70,7 @@ export class AppComponent implements OnInit, OnDestroy {
       .pipe(
         take(5),
         map(x => x * 10),
+        filter(x => x > 20),
       )
       .subscribe(v => console.log('Operator take$ ==> ', v));
   }
