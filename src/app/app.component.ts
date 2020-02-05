@@ -64,9 +64,14 @@ export class AppComponent implements OnInit, OnDestroy {
     );
     this.replaySubject$.next(3);
 
-    const numbers$ = interval(10).pipe(take(5));
+    const numbers$ = interval(10);
 
-    numbers$.subscribe(v => console.log('Operator take$ ==> ', v));
+    numbers$
+      .pipe(
+        take(5),
+        map(x => x * 10),
+      )
+      .subscribe(v => console.log('Operator take$ ==> ', v));
   }
 
   ngOnDestroy() {
