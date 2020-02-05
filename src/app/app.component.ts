@@ -1,13 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import {
-  Observable,
-  Subject,
-  BehaviorSubject,
-  ReplaySubject,
-  pipe,
-} from 'rxjs';
+import { Observable, Subject, BehaviorSubject, ReplaySubject } from 'rxjs';
 import { interval, of } from 'rxjs';
-import { take, map, filter, mergeMap } from 'rxjs/operators';
+import { take, map, filter, mergeMap, switchMap } from 'rxjs/operators';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -93,6 +87,20 @@ export class AppComponent implements OnInit, OnDestroy {
         ),
       )
       .subscribe(x => console.log('MERGEMAP ==> ', x));
+
+    const numbers3$ = interval(1000);
+    const letters1$ = of('a', 'b', 'c', 'd', 'e');
+
+    letters1$
+      .pipe(
+        switchMap(x =>
+          numbers3$.pipe(
+            take(5),
+            map(i => i + x),
+          ),
+        ),
+      )
+      .subscribe(x => console.log('SWITCHMAP ==> ', x));
   }
 
   ngOnDestroy() {
