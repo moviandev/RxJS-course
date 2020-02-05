@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Observable, Subject, BehaviorSubject, ReplaySubject } from 'rxjs';
-import { interval, of } from 'rxjs';
+import { interval, of, fromEvent } from 'rxjs';
 import { take, map, filter, mergeMap, switchMap } from 'rxjs/operators';
 @Component({
   selector: 'app-root',
@@ -101,6 +101,10 @@ export class AppComponent implements OnInit, OnDestroy {
         ),
       )
       .subscribe(x => console.log('SWITCHMAP ==> ', x));
+
+    fromEvent(document, 'click').subscribe(x =>
+      console.log('FROM EVENT ==> ', x),
+    );
   }
 
   ngOnDestroy() {
