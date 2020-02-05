@@ -1,7 +1,21 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Observable, Subject, BehaviorSubject, ReplaySubject } from 'rxjs';
-import { interval, of, fromEvent } from 'rxjs';
-import { take, map, filter, mergeMap, switchMap } from 'rxjs/operators';
+import {
+  Observable,
+  Subject,
+  BehaviorSubject,
+  ReplaySubject,
+  interval,
+  of,
+  fromEvent,
+} from 'rxjs';
+import {
+  take,
+  map,
+  filter,
+  mergeMap,
+  switchMap,
+  debounceTime,
+} from 'rxjs/operators';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -13,6 +27,7 @@ export class AppComponent implements OnInit, OnDestroy {
   subject$: Subject<number>;
   behaviorSubject$: BehaviorSubject<number>;
   replaySubject$: ReplaySubject<number>;
+  searchSubject$: Subject<string> = new Subject<string>();
 
   ngOnInit() {
     this.observable$ = new Observable<any>(observer => {
@@ -105,6 +120,15 @@ export class AppComponent implements OnInit, OnDestroy {
     fromEvent(document, 'click').subscribe(x =>
       console.log('FROM EVENT ==> ', x),
     );
+
+    this.searchSubject$
+      .pipe(debounceTime(200))
+      .subscribe(x => console.log('DEBOUNCED TIME ==> ', x));
+  }
+
+  inputChanged($event) {
+    console.log('INPUT CHANGED ==> ', $event);
+    this.searchSubject$.next($event);
   }
 
   ngOnDestroy() {

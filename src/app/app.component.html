@@ -1,1 +1,8 @@
 <button>Click ME!</button>
+<br />
+<input
+  type="text"
+  [(ngModel)]="searchString"
+  (ngModelChange)="inputChanged($event)"
+  placeholder="Search"
+/>
